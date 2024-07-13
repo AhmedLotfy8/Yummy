@@ -1,3 +1,5 @@
+/* General stylings */
+
 * {
     margin: 0;
     padding: 0;
@@ -30,7 +32,7 @@
 }
 
 .fs-7 {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
 }
 
 @media (min-width: 1400px) {
@@ -45,6 +47,44 @@
     }
 }
 
+/* Sections */
+
+/* Loader Section */
+
+
+/* NavBar Section*/
+.sideNav {
+    z-index: 999;
+}
+
+.sideNav div img {
+    width: 50px;
+}
+
+.sideMenu {
+    transform: translateX(-100%);
+    transition: transform 0.7s;
+}
+
+.sideMenu.active {
+    transform: translateX(0%);
+}
+
+.sideMenu h5 {
+    cursor: pointer;
+}
+
+.sideBtn {
+    transition: transform 0.7s;
+}
+
+
+.fa-bars,
+.fa-x {
+    cursor: pointer;
+}
+
+/* Main Scection */
 .mainScreenItems {
     border-radius: 7px;
 }
@@ -71,6 +111,8 @@
     left: 4%;
     position: absolute;
 }
+
+/* Category Section */
 
 .categoryItems {
     border-radius: 7px;
@@ -99,30 +141,63 @@
     position: absolute;
 }
 
+.categoryItems .overlay2 p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    max-height: 5em;
+    line-height: 1.5em;
+    font-size: 1rem;
+}
+
+/* Ingredients Section */
+.ingredientsItems p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    max-height: 4.5em;
+    line-height: 1.5em;
+    font-size: 1rem;
+}
+
+/* Area Section */
+
+.fa-house-laptop {
+    cursor: pointer;
+}
+
+
+/* Details section */
+
 .link1,
 .link2 {
     transition: 0.3s;
-} 
+}
+
+/* Contact section */
 
 .inputs {
     border-radius: 7px;
-    transition: .3s;    
+    transition: .3s;
 }
 
 .inputs:focus {
     outline: #86b7fe !important;
 }
 
+/* Search section */
+
 .inputs2 {
-    border-radius: 7px;    
-    transition: .3s;    
+    border-radius: 7px;
+    transition: .3s;
 }
 
 .inputs2:focus {
-    border-color: #86b7fe !important;
     outline: #86b7fe !important;
 }
-
-
-
-

@@ -19,74 +19,138 @@
 
 <body class="bg-black">
 
-    <!-- Main Section -->
-    <div class="container py-5">
+    <!-- Side Nav -->
+    <nav class="sideNav position-fixed">
 
-        <div class="row g-4">
+        <!-- Nav menu -->
+        <div
+            class="sideMenu bg-black d-flex flex-column justify-content-between top-0 bottom-0 position-fixed px-3 py-4">
 
-            <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
-
-                <img src="img.jpg" class="w-100" alt="">
-
-                <div class="overlay d-flex align-items-center">
-                    <h3 class="ms-2 text-black">Cobra</h3>
-                </div>
-
+            <div>
+                <h5 class="fs-6 fw-light mb-3">Search</h5>
+                <h5 class="fs-6 fw-light mb-3">Categories</h5>
+                <h5 class="fs-6 fw-light mb-3">Area</h5>
+                <h5 class="fs-6 fw-light mb-3">Ingredients</h5>
+                <h5 class="fs-6 fw-light mb-3">Contact Us</h5>
             </div>
 
-            <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
+            <div class="pb-3">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fa-solid fa-globe"></i>
 
-                <img src="img.jpg" class="w-100" alt="">
-
-                <div class="overlay d-flex align-items-center">
-                    <h3 class="ms-2 text-black">Cobra</h3>
-                </div>
-
+                <p>Copyright Â© 2019 All Rights <br>
+                    Reserved.</p>
             </div>
 
-            <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
+        </div>
 
-                <img src="img.jpg" class="w-100" alt="">
+        <!-- Nav btn -->
+        <div
+            class="sideBtn bg-white position-fixed start-0 top-0 bottom-0 d-flex flex-column justify-content-between align-items-center p-2 py-3">
 
-                <div class="overlay d-flex align-items-center">
-                    <h3 class="ms-2 text-black">Cobra</h3>
-                </div>
-
+            <div>
+                <img src="logo.png" alt="">
             </div>
 
-            <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
-
-                <img src="img.jpg" class="w-100" alt="">
-
-                <div class="overlay d-flex align-items-center">
-                    <h3 class="ms-2 text-black">Cobra</h3>
-                </div>
-
+            <div class="d-flex justify-content-center align-items-start">
+                <i class="fa-solid fa-bars text-black fs-2"></i>
+                <i class="fa-solid fa-x text-black fs-2 d-none"></i>
             </div>
 
-            <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
-
-                <img src="img.jpg" class="w-100" alt="">
-
-                <div class="overlay d-flex align-items-center">
-                    <h3 class="ms-2 text-black">Cobra</h3>
-                </div>
-
+            <div class="d-flex flex-column">
+                <a href=""> <i class="fa-solid fa-globe text-black"></i> </a>
+                <a href=""> <i class="fa-solid fa-share-nodes text-black"></i> </a>
             </div>
 
-            <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
+        </div>
 
-                <img src="img.jpg" class="w-100" alt="">
+    </nav>
 
-                <div class="overlay d-flex align-items-center">
-                    <h3 class="ms-2 text-black">Cobra</h3>
-                </div>
+    <!-- Search section -->
+    <div class="container d-flex justify-content-center py-5 min-vh-100 d-none section" id="SearchSection">
 
+        <div class="row g-4 w-100">
+
+            <div class="col-md-6">
+                <input type="text" placeholder="Search By Name" class="inputs2 w-100 py-1 px-3 bg-black border-white">
+            </div>
+
+            <div class="col-md-6">
+                <input type="email" placeholder="Search By First Letter"
+                    class="inputs2 w-100 py-1 px-3 bg-black border-white">
             </div>
 
         </div>
 
     </div>
+
+    <!-- Categories section -->
+    <div class="container py-5 d-none section" id="CategoriesSection">
+
+        <div class="row g-4">
+
+        </div>
+
+    </div>
+
+    <!-- Area section -->
+    <div class="container py-5 d-none section" id="AreaSection">
+
+        <div class="row gy-5">
+
+        </div>
+
+    </div>
+
+    <!-- Ingredients section -->
+    <div class="container py-5 d-none section" id="IngredientsSection">
+
+        <div class="row gy-5">
+
+        </div>
+
+    </div>
+
+    <!-- Contact section -->
+    <div class="container d-flex justify-content-center align-items-center py-5 min-vh-100 d-none section"
+        id="ContactUsSection">
+
+        <div class="row g-4 w-75">
+
+            <div class="col-md-6">
+                <input type="text" placeholder="Enter Your Name" class="inputs w-100 py-1 px-2">
+            </div>
+
+            <div class="col-md-6">
+                <input type="email" placeholder="Enter Your Email" class="inputs w-100 py-1 px-2">
+            </div>
+
+            <div class="col-md-6">
+                <input type="text" placeholder="Enter Your Phone" class="inputs w-100 py-1 px-2">
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" placeholder="Enter Your Age" class="inputs w-100 py-1 px-2">
+            </div>
+
+            <div class="col-md-6">
+                <input type="password" placeholder="Enter Your Password" class="inputs w-100 py-1 px-2">
+            </div>
+
+            <div class="col-md-6">
+                <input type="password" placeholder="Repassword" class="inputs w-100 py-1 px-2">
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-center">
+                <button disabled class="btn btn-outline-danger">Submit</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
 
 
     <script src="Script/jquery.min.js"></script>
