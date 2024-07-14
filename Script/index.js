@@ -1,5 +1,10 @@
 // Main Section variables
 var mainSectionRow = document.querySelector('#MainSection .row')
+var mainSectionRowItems = document.querySelector('#MainSection .row .mainScreenItems')
+
+// Meal Details variable
+var mealSection = document.querySelector('#MealDetails');
+var mealSectionRow = document.querySelector('#MealDetails .row')
 
 // Search Section variables
 var searchSection = document.querySelector('#SearchSection');
@@ -56,6 +61,8 @@ async function fetchByMain() {
 
     try {
 
+        $('.loader').show();
+
         let response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
 
         if (!response.ok) {
@@ -72,6 +79,12 @@ async function fetchByMain() {
         console.error('This has been an error!', error)
     }
 
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+
 }
 
 //Display Main items
@@ -82,7 +95,7 @@ function displayMainList(mainListData) {
     for (var i = 0; i < mainListData.meals.length; i++) {
 
         mainRowHtml += `
-            <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
+            <div class="mainScreenItems col-md-3 position-relative overflow-hidden" id="${mainListData.meals[i].idMeal}">
 
                 <img src="${mainListData.meals[i].strMealThumb}" class="w-100" alt="">
 
@@ -97,11 +110,116 @@ function displayMainList(mainListData) {
 
     mainSectionRow.innerHTML = mainRowHtml;
 
+    // Clicking on meal
+    $('.mainScreenItems').on('click', function () {
+        var ID = $(this).attr('id');
+        fetchByMealID(ID)
+    })
+
+
 }
 
 fetchByMain()
 
 // ------------------------Main--------------------------------------- 
+
+
+// ------------------------Meal details--------------------------------------- 
+
+async function fetchByMealID(ID) {
+
+    try {
+
+        $('.loader').show();
+
+        let response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${ID}`);
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        let mealIDData = await response.json();
+
+        DisplayMeal(mealIDData);
+
+    }
+
+    catch (error) {
+        console.error('This has been an error!', error)
+    }
+
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+
+}
+
+function DisplayMeal(mealIDData) {
+
+    $('.section').addClass('d-none')
+    mealSection.classList.remove('d-none')
+
+    var recipeTagsHTML = ''
+    for (let i = 1; i <= 20; i++) {
+
+        let ingredient = mealIDData.meals[0][`strIngredient${i}`];
+        let measure = mealIDData.meals[0][`strMeasure${i}`];
+
+        if (ingredient != null && ingredient != "") {
+            recipeTagsHTML += `
+                    <span class="badge py-2 my-2 fw-medium ms-3 text-Clr1 bg-Clr1">${measure} ${ingredient}</span>`
+        }
+
+    }
+
+    var tagsHTML = ""
+    if (mealIDData.meals[0].strTags != null) {
+        var words = mealIDData.meals[0].strTags.split(',');
+
+        for (var j = 0; j < words.length; j++) {
+            tagsHTML += `
+            <span class="badge py-2 fw-medium ms-2 text-Clr2 bg-Clr2">${words[j]}</span>`
+        }
+    }
+
+    var mealRowHtml = `
+            <div class="col-md-4">
+                <img src="${mealIDData.meals[0].strMealThumb}" class="w-100 rounded-4" alt="">
+                <h3>${mealIDData.meals[0].strMeal}</h3>
+            </div> 
+    
+            <div class="col-md-8">
+                <h2>Instructions</h2>
+                <p class="fs-7">${mealIDData.meals[0].strInstructions}</p>
+                
+                <h4><span class="fw-bold">Area : </span>${mealIDData.meals[0].strArea}</h4>
+                <h4><span class="fw-bold">Category : </span>${mealIDData.meals[0].strCategory}</h4>
+                <h4>Recipes : </h4>
+                
+                <div class="d-flex flex-wrap align-items-center py-3">
+                ${recipeTagsHTML}
+                </div>
+
+                <div>
+                    <h4 class="mb-3">Tags :</h4>
+                    ${tagsHTML}
+                </div>
+
+                <div class="d-flex align-items-center py-4">
+                <a href="${mealIDData.meals[0].strSource}"
+                class="btn btn-success py-1">Source</a>
+                    <a href="${mealIDData.meals[0].strYoutube}" class="btn btn-danger py-1 ms-1">YouTube</a>
+                </div>
+                
+                </div>
+                `
+    mealSectionRow.innerHTML = mealRowHtml;
+
+}
+
+// ------------------------Meal details--------------------------------------- 
 
 
 // ------------------------Search--------------------------------------- 
@@ -120,6 +238,8 @@ async function fetchByName(word) {
 
     try {
 
+        $('.loader').show();
+
         let response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${word}`);
 
         if (!response.ok) {
@@ -136,6 +256,12 @@ async function fetchByName(word) {
         console.error('This has been an error!', error)
     }
 
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+
 }
 
 function DisplayNameList(nameListData) {
@@ -145,7 +271,7 @@ function DisplayNameList(nameListData) {
     for (var i = 0; i < nameListData.meals.length; i++) {
 
         searchRowHtml += `
-            <div class="searchItems col-md-3 position-relative overflow-hidden">
+            <div class="searchItems col-md-3 position-relative overflow-hidden" id="${nameListData.meals[i].idMeal}">
 
                 <img src="${nameListData.meals[i].strMealThumb}" class="w-100" alt="">
 
@@ -159,8 +285,13 @@ function DisplayNameList(nameListData) {
 
     searchSectionRow.innerHTML = searchRowHtml;
 
-}
+    // Clicking on meal
+    $('.searchItems').on('click', function () {
+        var ID = $(this).attr('id');
+        fetchByMealID(ID)
+    })
 
+}
 
 searchByFirstLetter.addEventListener('input', function () {
     fetchByFirstLetter(searchByFirstLetter.value)
@@ -169,6 +300,8 @@ searchByFirstLetter.addEventListener('input', function () {
 async function fetchByFirstLetter(letter) {
 
     try {
+
+        $('.loader').show();
 
         let response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`);
 
@@ -186,6 +319,12 @@ async function fetchByFirstLetter(letter) {
         console.error('This has been an error!', error)
     }
 
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+
 }
 
 function DisplayfirstLetterList(firstLetterListData) {
@@ -195,7 +334,7 @@ function DisplayfirstLetterList(firstLetterListData) {
     for (var i = 0; i < firstLetterListData.meals.length; i++) {
 
         searchRowHtml += `
-            <div class="searchItems col-md-3 position-relative overflow-hidden">
+            <div class="searchItems col-md-3 position-relative overflow-hidden" id="${firstLetterListData.meals[i].idMeal}">
 
                 <img src="${firstLetterListData.meals[i].strMealThumb}" class="w-100" alt="">
 
@@ -209,8 +348,13 @@ function DisplayfirstLetterList(firstLetterListData) {
 
     searchSectionRow.innerHTML = searchRowHtml;
 
-}
+    // Clicking on meal
+    $('.searchItems').on('click', function () {
+        var ID = $(this).attr('id');
+        fetchByMealID(ID)
+    })
 
+}
 
 // ------------------------Search--------------------------------------- 
 
@@ -229,6 +373,8 @@ async function fetchByCategories() {
 
     try {
 
+        $('.loader').show();
+
         let response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
 
         if (!response.ok) {
@@ -245,9 +391,14 @@ async function fetchByCategories() {
         console.error('This has been an error!', error)
     }
 
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+
 }
 
-// Display Categories items
 function displayCategoriesList(categoriesListData) {
 
     var categoriesRowHtml = ''
@@ -255,7 +406,7 @@ function displayCategoriesList(categoriesListData) {
     for (var i = 0; i < categoriesListData.categories.length; i++) {
 
         categoriesRowHtml += `
-            <div class="categoryItems col-md-3 position-relative p-4 overflow-hidden">
+            <div class="categoryItems col-md-3 position-relative p-4 overflow-hidden" id="${categoriesListData.categories[i].idCategory}">
 
                 <img src="${categoriesListData.categories[i].strCategoryThumb}" class="w-100" alt="">
 
@@ -269,6 +420,73 @@ function displayCategoriesList(categoriesListData) {
     }
 
     categoriesSectionRow.innerHTML = categoriesRowHtml;
+
+    // Clicking on Category
+    $('.categoryItems').on('click', function () {
+        var categoryType = $(this).find('h3').text();
+        fetchMealsByCategory(categoryType)
+    })
+
+
+}
+
+async function fetchMealsByCategory(categoryType) {
+
+    try {
+
+        $('.loader').show();
+
+        let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryType}`);
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        let mealCategoryData = await response.json();
+
+        DisplayCategoryMeals(mealCategoryData);
+
+    }
+
+    catch (error) {
+        console.error('This has been an error!', error)
+    }
+
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });;
+    }
+}
+
+function DisplayCategoryMeals(mealCategoryData) {
+
+    var categoriesRowHtml = ''
+
+    for (var i = 0; i < mealCategoryData.meals.length; i++) {
+
+        categoriesRowHtml += `
+            <div class="mainScreenItems col-md-3 position-relative overflow-hidden" id="${mealCategoryData.meals[i].idMeal}">
+
+                <img src="${mealCategoryData.meals[i].strMealThumb}" class="w-100" alt="">
+
+                <div class="overlay d-flex align-items-center">
+                    <h3 class="ms-2 text-black">${mealCategoryData.meals[i].strMeal}</h3>
+                </div>
+
+            </div>
+            `
+
+    }
+
+    categoriesSectionRow.innerHTML = categoriesRowHtml;
+
+    // Clicking on meal
+    $('.mainScreenItems').on('click', function () {
+        var ID = $(this).attr('id');
+        fetchByMealID(ID)
+    })
+
 
 }
 
@@ -289,6 +507,8 @@ async function fetchByArea() {
 
     try {
 
+        $('.loader').show();
+
         let response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
 
         if (!response.ok) {
@@ -305,6 +525,12 @@ async function fetchByArea() {
         console.error('This has been an error!', error)
     }
 
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+
 }
 
 // Display Area items
@@ -315,7 +541,7 @@ function displayAreaList(areaListData) {
     for (var i = 0; i < areaListData.meals.length; i++) {
 
         areaRowHtml += `
-        <div class="col-md-3 text-center">
+        <div class="areaItems col-md-3 text-center" id="${areaListData.meals[i].strArea}">
             <span class="fa-solid fa-house-laptop display-4"></span>
             <h2 class="fs-3">${areaListData.meals[i].strArea}</h2>
         </div> `
@@ -323,66 +549,73 @@ function displayAreaList(areaListData) {
 
     areaSectionRow.innerHTML = areaRowHtml;
 
+    // Clicking on Area
+    $('.areaItems').on('click', function () {
+        var areaType = $(this).find('h2').text();
+        fetchMealsByArea(areaType)
+    })
+
 }
 
+async function fetchMealsByArea(areaType) {
 
-// FIXME: VARIABLE BTN
-// Click on specific Area
+    try {
 
-// async function fetchBySpecificArea() {
+        $('.loader').show();
 
-//     let country = "american"
+        let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${areaType}`);
 
-//     try {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
 
-//         let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${country}`);
+        let mealAreaData = await response.json();
 
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok ' + response.statusText);
-//         }
+        DisplayAreaMeals(mealAreaData);
 
-//         let specificAreaListData = await response.json();
+    }
 
-//         displaySpecificAreaList(specificAreaListData);
+    catch (error) {
+        console.error('This has been an error!', error)
+    }
 
-//     }
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+}
 
-//     catch (error) {
-//         console.error('This has been an error!', error)
-//     }
+function DisplayAreaMeals(mealAreaData) {
 
-// }
+    var areaRowHtml = ''
 
-// function displaySpecificAreaList(specificAreaListData) {
+    for (var i = 0; i < mealAreaData.meals.length; i++) {
 
-//     var areaRowHtml = ''
+        areaRowHtml += `
+            <div class="mainScreenItems col-md-3 position-relative overflow-hidden" id="${mealAreaData.meals[i].idMeal}">
 
-//     for (var i = 0; i < specificAreaListData.meals.length; i++) {
+                <img src="${mealAreaData.meals[i].strMealThumb}" class="w-100" alt="">
 
-//         areaRowHtml += `
-//             <div class="mainScreenItems col-md-3 position-relative overflow-hidden">
+                <div class="overlay d-flex align-items-center">
+                    <h3 class="ms-2 text-black">${mealAreaData.meals[i].strMeal}</h3>
+                </div>
 
-//                 <img src="${specificAreaListData.meals[i].strMealThumb}" class="w-100" alt="">
+            </div>
+            `
 
-//                 <div class="overlay d-flex align-items-center">
-//                     <h3 class="ms-2 text-black">${specificAreaListData.meals[i].strMeal}</h3>
-//                 </div>
+    }
 
-//             </div>
-//              `
-//     }
+    areaSectionRow.innerHTML = areaRowHtml;
 
-//     areaSectionRow.innerHTML = areaRowHtml;
-
-// }
-
-// fetchBySpecificArea()
-
-
-
-
+    // Clicking on meal
+    $('.mainScreenItems').on('click', function () {
+        var ID = $(this).attr('id');
+        fetchByMealID(ID)
+    })
 
 
+}
 
 // -----------------------Area---------------------------------------- 
 
@@ -401,6 +634,8 @@ async function fetchByIngredients() {
 
     try {
 
+        $('.loader').show();
+
         let response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
 
         if (!response.ok) {
@@ -417,6 +652,11 @@ async function fetchByIngredients() {
         console.error('This has been an error!', error)
     }
 
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
 }
 
 // Display Ingredients items
@@ -427,17 +667,83 @@ function displayIngredientsList(ingredientsListData) {
     for (var i = 0; i < 20; i++) {
 
         ingredientsRowHtml += `
-            < div class="ingredientsItems col-md-3 text-center" >
+            <div class="ingredientsItems col-md-3 text-center" id="${ingredientsListData.meals[i].idIngredient}">
 
                 <span class="fa-solid fa-drumstick-bite display-4"></span>
                 <h2 class="fs-3">${ingredientsListData.meals[i].strIngredient}</h2>
                 <p class="fs-7">${ingredientsListData.meals[i].strDescription}</p>
 
-            </ > `
+            </div> `
 
     }
 
     ingredientsSectionRow.innerHTML = ingredientsRowHtml;
+
+    // Clicking on Ingredient
+    $('.ingredientsItems').on('click', function () {
+        var ingredientType = $(this).find('h2').text();
+        fetchMealsByingredients(ingredientType)
+    })
+
+}
+
+async function fetchMealsByingredients(ingredientType) {
+
+    try {
+
+        $('.loader').show();
+
+        let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredientType}`);
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        let mealIngredientData = await response.json();
+
+        DisplayIngredientMeals(mealIngredientData);
+
+    }
+
+    catch (error) {
+        console.error('This has been an error!', error)
+    }
+
+    finally {
+        $('.loader').fadeOut(1000, function() {
+            $('body').css({overflow: 'auto'});
+        });
+    }
+}
+
+function DisplayIngredientMeals(mealAreaData) {
+
+    var ingredientsRowHtml = ''
+
+    for (var i = 0; i < mealAreaData.meals.length; i++) {
+
+        ingredientsRowHtml += `
+            <div class="mainScreenItems col-md-3 position-relative overflow-hidden" id="${mealAreaData.meals[i].idMeal}">
+
+                <img src="${mealAreaData.meals[i].strMealThumb}" class="w-100" alt="">
+
+                <div class="overlay d-flex align-items-center">
+                    <h3 class="ms-2 text-black">${mealAreaData.meals[i].strMeal}</h3>
+                </div>
+
+            </div>
+            `
+
+    }
+
+    ingredientsSectionRow.innerHTML = ingredientsRowHtml;
+
+    // Clicking on meal
+    $('.mainScreenItems').on('click', function () {
+        var ID = $(this).attr('id');
+        fetchByMealID(ID)
+    })
+
 
 }
 
@@ -592,74 +898,66 @@ function checkAllValidations() {
 // Sliding Nav bar effect
 $('.sideNav .sideBtn i').on('click', function () {
 
-    // Icon Alternating
-    $('.sideBtn .fa-bars').toggleClass('d-none')
-    $('.sideBtn .fa-x').toggleClass('d-none')
-
+    toggleIcons()
 
     $('.sideNav .sideMenu').toggleClass('active');
 
     // Move to the left
     if ($('.sideNav .sideMenu').hasClass('active')) {
+
         $('.sideNav .sideBtn').css('transform', 'translateX(' + $('.sideNav .sideMenu').outerWidth(true) + 'px)');
+        slideTop()
 
-        for (let i = 0; i < 5; i++) {
-
-            $(".sideMenu h5").eq(i).animate({
-                top: 0
-            }, (i + 5) * 100)
-        }
     }
 
     // move to the right
     else {
-        $('.sideNav .sideBtn').css('transform', 'translateX(0)');
 
-        $(".sideMenu h5").animate({
-            top: 300
-        }, 500)
+        $('.sideNav .sideBtn').css('transform', 'translateX(0)');
+        slideBot()
 
     }
 
 });
 
-$(document).on('click', '.sideMenu h5', function () {
+// Clicking on headers
+$('.sideMenu h5').on('click', function () {
+
     $('.sideNav .sideMenu').removeClass('active');
     $('.sideNav .sideBtn').css('transform', 'translateX(0)');
+
+    toggleIcons()
+
+    // Move to the left
+    if ($('.sideNav .sideMenu').hasClass('active')) {
+        slideTop()
+    }
+
+    // move to the right
+    else {
+        slideBot()
+    }
+
 });
 
+function toggleIcons() {
+    $('.sideBtn .fa-bars').toggleClass('d-none')
+    $('.sideBtn .fa-x').toggleClass('d-none')
+}
 
+function slideTop() {
+    for (let i = 0; i < 5; i++) {
+
+        $(".sideMenu h5").eq(i).animate({
+            top: 0
+        }, (i + 5) * 100)
+    }
+}
+
+function slideBot() {
+    $(".sideMenu h5").animate({
+        top: 300
+    }, 500)
+}
 
 // ------------------------Nav---------------------------------------
-
-
-// $(function () {
-//     $('.loader').fadeOut(1500)
-//     $('body').css({ overflow: 'auto' })
-// })
-
-// $(function () {
-//     $('loader')
-//         .fadeOut(1500)
-//         $('body').css({ overflow: 'auto' })
-// })
-
-
-
-var menu = document.querySelector('.sideBtn')
-var flag = true
-menu.addEventListener('click', function () {
-
-    if (flag) {
-
-        flag = false
-    }
-
-    if (!flag) {
-
-        flag = true
-    }
-
-
-
-})
