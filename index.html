@@ -19,6 +19,13 @@
 
 <body class="bg-black">
 
+    <!-- Loading Screen -->
+    <div class="loader min-vh-100 bg-black d-none">
+        <div class="fa-3x d-flex justify-content-center">
+            <i class="fas fa-spinner fa-spin display-1"></i>
+        </div>
+    </div>
+
     <!-- Side Nav -->
     <nav class="sideNav position-fixed">
 
@@ -67,21 +74,36 @@
 
     </nav>
 
-    <!-- Search section -->
-    <div class="container d-flex justify-content-center py-5 min-vh-100 d-none section" id="SearchSection">
+    <!-- Main Section -->
+    <div class="container py-5 section d-none" id="MainSection">
 
-        <div class="row g-4 w-100">
+        <div class="row g-4">
+
+        </div>
+
+    </div>
+
+    <!-- Search section -->
+    <div class="container d-flex flex-column justify-content-start py-5 min-vh-100  section" id="SearchSection">
+
+        <div class="row g-4 w-100 pb-5">
 
             <div class="col-md-6">
                 <input type="text" placeholder="Search By Name" class="inputs2 w-100 py-1 px-3 bg-black border-white">
             </div>
 
             <div class="col-md-6">
-                <input type="email" placeholder="Search By First Letter"
+                <input type="email" placeholder="Search By First Letter" maxlength="1"
                     class="inputs2 w-100 py-1 px-3 bg-black border-white">
             </div>
 
         </div>
+
+        <div class="searchedItems row g-4">
+
+
+        </div>
+
 
     </div>
 
@@ -118,39 +140,82 @@
 
         <div class="row g-4 w-75">
 
-            <div class="col-md-6">
-                <input type="text" placeholder="Enter Your Name" class="inputs w-100 py-1 px-2">
+            <div class="col-md-6 text-black">
+                <input type="text" placeholder="Enter Your Name" class="inputs w-100 py-1 px-2 text-black">
+
+                <div
+                    class="bg-Clr5 py-3 mt-2 rounded-3 d-flex justify-content-center align-items-center d-none inputError">
+                    <p class="m-0 text-Clr2 fs-7">Invalid name! "Special characters and numbers not allowed"
+                    </p>
+                </div>
+
             </div>
 
             <div class="col-md-6">
-                <input type="email" placeholder="Enter Your Email" class="inputs w-100 py-1 px-2">
+                <input type="email" placeholder="Enter Your Email" class="inputs w-100 py-1 px-2 text-black">
+
+                <div
+                    class="bg-Clr5 py-3 mt-2 rounded-3 d-flex justify-content-center align-items-center d-none inputError">
+                    <p class="m-0 text-Clr2 fs-7">Email not valid *exemple@yyy.zzz
+                    </p>
+                </div>
+
             </div>
 
             <div class="col-md-6">
-                <input type="text" placeholder="Enter Your Phone" class="inputs w-100 py-1 px-2">
+                <input type="text" placeholder="Enter Your Phone" class="inputs w-100 py-1 px-2 text-black">
+
+                <div
+                    class="bg-Clr5 py-3 mt-2 rounded-3 d-flex justify-content-center align-items-center d-none inputError">
+                    <p class="m-0 text-Clr2 fs-7">Enter valid Phone Number
+
+                    </p>
+                </div>
+
             </div>
 
             <div class="col-md-6">
-                <input type="number" placeholder="Enter Your Age" class="inputs w-100 py-1 px-2">
+                <input type="number" placeholder="Enter Your Age" class="inputs w-100 py-1 px-2 text-black">
+
+                <div
+                    class="bg-Clr5 py-3 mt-2 rounded-3 d-flex justify-content-center align-items-center d-none inputError">
+                    <p class="m-0 text-Clr2 fs-7">Enter valid age
+                    </p>
+                </div>
+
             </div>
 
             <div class="col-md-6">
-                <input type="password" placeholder="Enter Your Password" class="inputs w-100 py-1 px-2">
+                <input type="password" placeholder="Enter Your Password" class="inputs w-100 py-1 px-2 text-black">
+
+                <div
+                    class="bg-Clr5 py-3 mt-2 rounded-3 d-flex justify-content-center align-items-center d-none inputError">
+                    <p class="m-0 text-Clr2 fs-7 text-center">Enter valid password *Minimum eight characters, at least
+                        one letter
+                        and one number:*
+                    </p>
+                </div>
+
             </div>
 
             <div class="col-md-6">
-                <input type="password" placeholder="Repassword" class="inputs w-100 py-1 px-2">
+                <input type="password" placeholder="Repassword" class="inputs w-100 py-1 px-2 text-black">
+
+                <div
+                    class="bg-Clr5 py-3 mt-2 rounded-3 d-flex justify-content-center align-items-center d-none inputError">
+                    <p class="m-0 text-Clr2 fs-7">Enter valid repassword
+                    </p>
+                </div>
+
             </div>
 
             <div class="col-md-12 d-flex justify-content-center">
-                <button disabled class="btn btn-outline-danger">Submit</button>
+                <button class="btn btn-outline-danger disabled">Submit</button>
             </div>
 
         </div>
 
     </div>
-
-
 
 
     <script src="Script/jquery.min.js"></script>

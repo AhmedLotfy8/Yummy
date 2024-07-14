@@ -7,6 +7,10 @@
     color: white;
 }
 
+body { 
+    /* overflow: hidden; FIXME: */
+}
+
 .bg-Clr1 {
     background-color: #CFF4FC;
 }
@@ -21,6 +25,10 @@
 
 .bg-Clr4 {
     background-color: #dc3545;
+}
+
+.bg-Clr5 {
+    background-color: #F8D7DA;
 }
 
 .text-Clr1 {
@@ -50,11 +58,19 @@
 /* Sections */
 
 /* Loader Section */
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999 !important;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /* NavBar Section*/
 .sideNav {
-    z-index: 999;
+    z-index: 99;
 }
 
 .sideNav div img {
@@ -71,6 +87,8 @@
 }
 
 .sideMenu h5 {
+    top: 100px;
+    position: relative;
     cursor: pointer;
 }
 
@@ -86,6 +104,7 @@
 
 /* Main Scection */
 .mainScreenItems {
+    cursor: pointer;
     border-radius: 7px;
 }
 
@@ -112,9 +131,60 @@
     position: absolute;
 }
 
+/* Details section */
+
+.link1,
+.link2 {
+    transition: 0.3s;
+}
+
+/* Search section */
+
+.inputs2 {
+    border-radius: 7px;
+    transition: .3s;
+}
+
+.inputs2:focus {
+    outline: #86b7fe !important;
+}
+
+.searchItems {
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+.searchItems img {
+    border-radius: 7px;
+}
+
+.searchItems:hover .overlay3 {
+    transform: translateY(0%);
+}
+
+.mainScreenItems:hover .overlay3 {
+    transform: translateY(0%);
+}
+
+.overlay3 {
+    width: 92%;
+    height: 100%;
+    background-color: #f9f6f6ca;
+
+    transition: .5s;
+    transform: translateY(100%);
+
+    border-radius: 7px;
+
+    top: 0%;
+    left: 4%;
+    position: absolute;
+}
+
 /* Category Section */
 
 .categoryItems {
+    cursor: pointer;
     border-radius: 7px;
 }
 
@@ -153,6 +223,13 @@
     font-size: 1rem;
 }
 
+/* Area Section */
+
+.fa-house-laptop {
+    cursor: pointer;
+}
+
+
 /* Ingredients Section */
 .ingredientsItems p {
     display: -webkit-box;
@@ -166,18 +243,8 @@
     font-size: 1rem;
 }
 
-/* Area Section */
-
-.fa-house-laptop {
+.ingredientsItems {
     cursor: pointer;
-}
-
-
-/* Details section */
-
-.link1,
-.link2 {
-    transition: 0.3s;
 }
 
 /* Contact section */
@@ -188,16 +255,5 @@
 }
 
 .inputs:focus {
-    outline: #86b7fe !important;
-}
-
-/* Search section */
-
-.inputs2 {
-    border-radius: 7px;
-    transition: .3s;
-}
-
-.inputs2:focus {
     outline: #86b7fe !important;
 }
